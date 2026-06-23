@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor de Poluição Ambiental</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Leaflet (MAPA MUNDI) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+
+<body>
+
+<header>
+    <h1>🌎 Monitor de Poluição Ambiental</h1>
+    <p>Dados em tempo real da qualidade do ar</p>
+</header>
+
+<main>
+
+    <!-- Brasil -->
+    <section class="card">
+        <h2>🇧🇷 São Paulo</h2>
+        <p id="brasil">Carregando...</p>
+    </section>
+
+    <!-- Mundo -->
+    <section class="card">
+        <h2>🌍 Visão Global</h2>
+        <p id="mundo">Carregando...</p>
+    </section>
+
+    <!-- Data -->
+    <section class="card">
+        <h2>📅 Atualização</h2>
+        <p id="data"></p>
+    </section>
+
+    <!-- GRÁFICO -->
+    <section class="card">
+        <h2>📊 Índice de Poluição</h2>
+        <canvas id="grafico"></canvas>
+    </section>
+
+    <!-- MAPA MUNDI -->
+    <section class="card">
+        <h2>🗺️ Mapa Mundial da Poluição</h2>
+        <div id="mapa"></div>
+    </section>
+
+</main>
+
+<script src="script.js"></script>
+
+</body>
+</html>
