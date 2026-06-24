@@ -1,16 +1,12 @@
 const API_KEY = "3599313d241ecd95619ccd688590503a";
 
-// Coordenadas
-const lat = -23.55;
-const lon = -46.63;
-
-// ===== MAPA =====
-const mapa = L.map("mapa").setView([lat, lon], 4);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: "© OpenStreetMap"
-}).addTo(mapa);
-
-let marcador = L.marker([lat, lon]).addTo(mapa);
+// ===== ESTADO GLOBAL =====
+let lat = -23.55;
+let lon = -46.63;
+let cidadeNome = "🇧🇷 São Paulo";
+let mapa = null;
+let marcador = null;
+let grafico = null;
 
 // ===== TRADUTOR AQI =====
 const niveisAQI = {
@@ -21,12 +17,54 @@ const niveisAQI = {
     5: { texto: "Péssima ☠️", cor: "#7e0023", bg: "#fce4ec" }
 };
 
-// ===== GRÁFICO =====
-const ctx = document.getElementById("grafico");
-let grafico = null;
+// ===== NOMES DAS CIDADES =====
+const cidades = {
+    "-23.55,-46.63": "🇧🇷 São Paulo",
+    "-22.91,-43.20": "🇧🇷 Rio de Janeiro",
+    "-19.92,-43.94": "🇧🇷 Belo Horizonte",
+    "-12.97,-38.51": "🇧🇷 Salvador",
+    "-30.03,-51.23": "🇧🇷 Porto Alegre",
+    "-25.43,-49.27": "🇧🇷 Curitiba",
+    "-15.79,-47.88": "🇧🇷 Brasília",
+    "-8.05,-34.90": "🇧🇷 Recife",
+    "-3.72,-38.54": "🇧🇷 Fortaleza",
+    "-27.60,-48.55": "🇧🇷 Florianópolis"
+};
+
+// ===== INICIALIZA MAPA =====
+function initMapa() {
+    if (mapa) {
+        mapa.remove();
+    }
+    mapa = L.map("mapa").setView([lat, lon], 5);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "© OpenStreetMap"
+    }).addTo(mapa);
+    atualizarMarcador();
+}
+
+function atualizarMarcador() {
+    if (marcador) {
+        mapa.removeLayer(marcador);
+    }
+    marcador = L.marker([lat, lon]).addTo(mapa);
+    mapa.setView([lat, lon], 5);
+}
+
+// ===== LOADING =====
+function setLoading(ativo) {
+    const logo = document.getElementById("logoAnimada");
+    if (ativo) {
+        logo.classList.add("carregando");
+    } else {
+        logo.classList.remove("carregando");
+    }
+}
 
 // ===== FUNÇÃO PRINCIPAL =====
 async function carregarDados() {
+    setLoading(true);
+
     try {
         const resposta = await fetch(
             `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`
@@ -45,7 +83,9 @@ async function carregarDados() {
         const componentes = itemAtual.components;
         const info = niveisAQI[aqi] || niveisAQI[1];
 
-        // ===== ATUALIZA UI =====
+        // Atualiza nome da cidade
+        document.getElementById("nomeCidade").innerText = cidadeNome;
+
         // AQI com cor
         document.getElementById("brasil").innerHTML = `
             AQI: <span style="color:${info.cor}; background:${info.bg}; 
@@ -75,13 +115,14 @@ async function carregarDados() {
         document.getElementById("data").innerText = dataHora;
 
         // Atualiza marcador do mapa
-        marcador.bindPopup(`
-            <b>🇧🇷 São Paulo</b><br>
-            AQI: ${aqi} — ${info.texto}
-        `).openPopup();
+        if (marcador) {
+            marcador.bindPopup(`
+                <b>${cidadeNome}</b><br>
+                AQI: ${aqi} — ${info.texto}
+            `).openPopup();
+        }
 
         // ===== GRÁFICO COM DADOS REAIS =====
-        // Pega até 7 registros da previsão (se disponível)
         const registros = dados.list.slice(0, 7);
         const labels = registros.map((item, i) => {
             const d = new Date(item.dt * 1000);
@@ -91,6 +132,7 @@ async function carregarDados() {
 
         const dadosGrafico = registros.map(item => item.main.aqi);
 
+        const ctx = document.getElementById("grafico");
         if (grafico) grafico.destroy();
 
         grafico = new Chart(ctx, {
@@ -123,18 +165,45 @@ async function carregarDados() {
                         ticks: {
                             stepSize: 1,
                             callback: (v) => niveisAQI[v] ? niveisAQI[v].texto.split(' ')[0] : v
+                        },
+                        title: {
+                            display: true,
+                            text: 'AQI (1 = Bom, 5 = Péssimo)',
+                            color: '#2e7d32'
                         }
                     }
                 }
             }
         });
 
+        setLoading(false);
+
     } catch (erro) {
         console.error("Erro:", erro);
         document.getElementById("brasil").innerHTML = "❌ Erro ao carregar dados";
         document.getElementById("detalhes").innerHTML = "";
         document.getElementById("data").innerText = "Falha na atualização";
+        setLoading(false);
     }
+}
+
+// ===== TROCAR CIDADE =====
+function trocarCidade() {
+    const select = document.getElementById("cidadeSelect");
+    const valor = select.value;
+    const [novaLat, novaLon] = valor.split(',').map(Number);
+    lat = novaLat;
+    lon = novaLon;
+    cidadeNome = cidades[valor] || "🌍 Cidade";
+
+    // Atualiza mapa
+    if (mapa) {
+        mapa.setView([lat, lon], 5);
+        atualizarMarcador();
+    }
+
+    // Recarrega dados
+    carregarDados();
 }
 
 // ===== ALTERNAR TEMA =====
@@ -145,5 +214,6 @@ function alternarTema() {
 }
 
 // ===== INICIALIZA =====
+initMapa();
 carregarDados();
 setInterval(carregarDados, 60000); // a cada 1 minuto
