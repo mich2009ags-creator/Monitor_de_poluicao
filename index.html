@@ -3,60 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitor de Poluição Ambiental</title>
+    <title>🌱 Monitor de Poluição</title>
 
     <link rel="stylesheet" href="style.css">
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Leaflet (MAPA MUNDI) -->
+    <!-- Leaflet (Mapa) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
-
 <body>
 
 <header>
-    <h1>🌎 Monitor de Poluição Ambiental</h1>
-    <p>Dados em tempo real da qualidade do ar</p>
+    <!-- LOGO ANIMADA FOFA -->
+    <div class="logo-container">
+        <div class="logo">
+            <span class="leaf">🌿</span>
+            <span class="heart">💚</span>
+            <span class="cloud">☁️</span>
+        </div>
+        <h1>Monitor de Poluição</h1>
+        <p>🌎 Cuidando do ar que você respira</p>
+    </div>
+    <button id="temaBtn" onclick="alternarTema()">🌙</button>
 </header>
 
 <main>
-
-    <!-- Brasil -->
+    <!-- São Paulo -->
     <section class="card">
         <h2>🇧🇷 São Paulo</h2>
-        <p id="brasil">Carregando...</p>
+        <div id="brasil" class="dado-principal">Carregando...</div>
+        <div id="detalhes" class="detalhes"></div>
     </section>
 
     <!-- Mundo -->
     <section class="card">
         <h2>🌍 Visão Global</h2>
-        <p id="mundo">Carregando...</p>
+        <p id="mundo">Monitorando qualidade do ar</p>
     </section>
 
     <!-- Data -->
     <section class="card">
-        <h2>📅 Atualização</h2>
-        <p id="data"></p>
+        <h2>📅 Última medição</h2>
+        <p id="data" class="dado-principal">--</p>
     </section>
 
-    <!-- GRÁFICO -->
+    <!-- Gráfico -->
     <section class="card">
-        <h2>📊 Índice de Poluição</h2>
+        <h2>📊 Histórico da Semana</h2>
         <canvas id="grafico"></canvas>
     </section>
 
-    <!-- MAPA MUNDI -->
+    <!-- Mapa -->
     <section class="card">
-        <h2>🗺️ Mapa Mundial da Poluição</h2>
+        <h2>🗺️ Mapa da Poluição</h2>
         <div id="mapa"></div>
     </section>
-
 </main>
 
-<script src="script.js"></script>
+<footer>
+    <p>💚 Feito com carinho para um ar mais limpo</p>
+</footer>
 
+<script src="script.js"></script>
 </body>
 </html>
