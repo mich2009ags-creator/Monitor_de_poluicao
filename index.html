@@ -19,7 +19,7 @@
 <header>
     <!-- LOGO ANIMADA FOFA -->
     <div class="logo-container">
-        <div class="logo">
+        <div class="logo" id="logoAnimada">
             <span class="leaf">🌿</span>
             <span class="heart">💚</span>
             <span class="cloud">☁️</span>
@@ -27,13 +27,29 @@
         <h1>Monitor de Poluição</h1>
         <p>🌎 Cuidando do ar que você respira</p>
     </div>
-    <button id="temaBtn" onclick="alternarTema()">🌙</button>
+
+    <!-- SELETOR DE CIDADES -->
+    <div class="controles">
+        <select id="cidadeSelect" onchange="trocarCidade()">
+            <option value="-23.55,-46.63">🇧🇷 São Paulo</option>
+            <option value="-22.91,-43.20">🇧🇷 Rio de Janeiro</option>
+            <option value="-19.92,-43.94">🇧🇷 Belo Horizonte</option>
+            <option value="-12.97,-38.51">🇧🇷 Salvador</option>
+            <option value="-30.03,-51.23">🇧🇷 Porto Alegre</option>
+            <option value="-25.43,-49.27">🇧🇷 Curitiba</option>
+            <option value="-15.79,-47.88">🇧🇷 Brasília</option>
+            <option value="-8.05,-34.90">🇧🇷 Recife</option>
+            <option value="-3.72,-38.54">🇧🇷 Fortaleza</option>
+            <option value="-27.60,-48.55">🇧🇷 Florianópolis</option>
+        </select>
+        <button id="temaBtn" onclick="alternarTema()">🌙</button>
+    </div>
 </header>
 
 <main>
-    <!-- São Paulo -->
+    <!-- Cidade atual -->
     <section class="card">
-        <h2>🇧🇷 São Paulo</h2>
+        <h2 id="nomeCidade">🇧🇷 São Paulo</h2>
         <div id="brasil" class="dado-principal">Carregando...</div>
         <div id="detalhes" class="detalhes"></div>
     </section>
@@ -52,7 +68,7 @@
 
     <!-- Gráfico -->
     <section class="card">
-        <h2>📊 Histórico da Semana</h2>
+        <h2>📊 Histórico (últimas horas)</h2>
         <canvas id="grafico"></canvas>
     </section>
 
