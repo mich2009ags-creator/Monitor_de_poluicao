@@ -23,25 +23,29 @@ header {
     background: linear-gradient(135deg, #2e7d32, #43a047);
     color: white;
     text-align: center;
-    padding: 20px 20px 15px;
+    padding: 16px 20px 14px;
     position: relative;
     box-shadow: 0 4px 20px rgba(46, 125, 50, 0.3);
 }
 
-/* LOGO ANIMADA FOFA */
 .logo-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 2px;
 }
 
 .logo {
-    font-size: 3.5rem;
+    font-size: 3rem;
     display: flex;
-    gap: 10px;
+    gap: 8px;
     animation: flutuar 3s ease-in-out infinite;
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+}
+
+/* Loading: logo pulsa mais forte */
+.logo.carregando {
+    animation: pulsarLogo 0.8s ease-in-out infinite;
 }
 
 .leaf {
@@ -61,18 +65,18 @@ header {
 }
 
 header h1 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     letter-spacing: 1px;
-    margin-top: 2px;
+    margin-top: 0px;
 }
 
 header p {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     opacity: 0.9;
     font-style: italic;
 }
 
-/* Animações da logo */
+/* Animações */
 @keyframes flutuar {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-8px); }
@@ -88,22 +92,61 @@ header p {
     50% { transform: scale(1.2); }
 }
 
+@keyframes pulsarLogo {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
 @keyframes flutuarNuvem {
     0%, 100% { transform: translateX(0px) rotate(0deg); }
     50% { transform: translateX(10px) rotate(2deg); }
 }
 
-/* Botão tema */
+/* Controles */
+.controles {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+#cidadeSelect {
+    padding: 8px 18px;
+    border-radius: 30px;
+    border: none;
+    font-size: 0.95rem;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(4px);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: 600;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><polygon points='0,0 12,0 6,8' fill='white'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+}
+
+#cidadeSelect:hover {
+    background-color: rgba(255,255,255,0.35);
+}
+
+#cidadeSelect option {
+    background: #2e7d32;
+    color: white;
+}
+
 #temaBtn {
-    position: absolute;
-    top: 15px;
-    right: 20px;
     background: rgba(255,255,255,0.2);
     border: none;
     border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    font-size: 1.4rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
     cursor: pointer;
     transition: 0.3s;
     backdrop-filter: blur(4px);
@@ -119,16 +162,15 @@ header p {
 main {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 18px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 18px;
+    gap: 16px;
 }
 
-/* Cards */
 .card {
     background: white;
-    padding: 18px 20px;
+    padding: 16px 18px;
     border-radius: 16px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.06);
     transition: 0.3s;
@@ -147,8 +189,8 @@ body.dark .card {
 
 .card h2 {
     color: #2e7d32;
-    font-size: 1.1rem;
-    margin-bottom: 10px;
+    font-size: 1.05rem;
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -159,18 +201,18 @@ body.dark .card h2 {
 }
 
 .dado-principal {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: bold;
-    margin: 6px 0;
+    margin: 4px 0;
 }
 
 .detalhes {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #555;
-    margin-top: 6px;
+    margin-top: 4px;
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 8px;
 }
 
 body.dark .detalhes {
@@ -179,9 +221,9 @@ body.dark .detalhes {
 
 .detalhes span {
     background: #f0f7f0;
-    padding: 4px 12px;
+    padding: 3px 12px;
     border-radius: 20px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
 }
 
 body.dark .detalhes span {
@@ -190,7 +232,7 @@ body.dark .detalhes span {
 
 /* ===== MAPA ===== */
 #mapa {
-    height: 280px;
+    height: 260px;
     width: 100%;
     border-radius: 12px;
     border: 2px solid #e8f5e9;
@@ -202,18 +244,18 @@ body.dark #mapa {
 
 /* ===== GRÁFICO ===== */
 #grafico {
-    max-height: 220px;
+    max-height: 200px;
     width: 100% !important;
 }
 
 /* ===== FOOTER ===== */
 footer {
     text-align: center;
-    padding: 20px;
+    padding: 16px;
     color: #888;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     border-top: 1px solid #e8f5e9;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 body.dark footer {
@@ -225,22 +267,33 @@ body.dark footer {
 @media (max-width: 700px) {
     main {
         grid-template-columns: 1fr;
-        padding: 12px;
+        padding: 10px;
     }
 
     header h1 {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
 
     .logo {
-        font-size: 2.8rem;
+        font-size: 2.4rem;
+    }
+
+    .controles {
+        gap: 8px;
+    }
+
+    #cidadeSelect {
+        font-size: 0.8rem;
+        padding: 6px 30px 6px 14px;
     }
 
     #temaBtn {
-        top: 10px;
-        right: 12px;
-        width: 38px;
-        height: 38px;
-        font-size: 1.2rem;
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+    }
+
+    .dado-principal {
+        font-size: 1.4rem;
     }
 }
